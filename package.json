@@ -1,0 +1,13 @@
+{
+  "name": "help-verison",
+  "description": "The api to support the help ui in persisting and supplying data",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Abisoye Oke-lawal abiso.lawal@gmail.com",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
