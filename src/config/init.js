@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 env.config();
 
 mongoose.connect(process.env.MONGO_TEST);
-console.log(process.env.MONGO_TEST);
 
 mongoose.connection.once('connected', () => {
   mongoose.connection.db.dropDatabase((err) => {

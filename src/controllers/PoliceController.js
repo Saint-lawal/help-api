@@ -17,13 +17,13 @@ export default class PoliceController {
       email: {
         $in: body.email
       }
-    }, (err, police) => {
+    }, (err, station) => {
       if (err) {
         res.status(500).send(err);
-      } else if (police) {
+      } else if (station) {
         res.status(409).send({ message: 'Police Station already exists.' });
       } else {
-        police = new Police({
+        station = new Police({
           name: body.name,
           location: {
             address: body.location.address,
@@ -35,13 +35,48 @@ export default class PoliceController {
           email: body.email
         });
 
-        police.save((err) => {
+        station.save((err) => {
           if (err) {
             res.status(500).send(err);
           } else {
-            res.status(201).send({ message: 'Created Successfully.' });
+            res.status(201).send(station);
           }
         });
+      }
+    });
+  }
+
+  /**
+   * Get all police stations
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static getAll(req, res) {
+    Police.find({}, (err, stations) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(stations);
+      }
+    });
+  }
+
+  /**
+   * Get one police station using
+   * the object id.
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static getOne(req, res) {
+    const id = req.params.id || req.body.id;
+
+    Police.findById(id, (err, station) => {
+      if (err) {
+        res.status(500).send(err);
+      } else if (!station) {
+        res.status(404).send({ message: 'No such user exists.' });
+      } else {
+        res.status(200).send(station);
       }
     });
   }

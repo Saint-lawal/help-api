@@ -8,9 +8,17 @@ export default class PoliceRoutes {
    */
   static routes(router) {
     router.route('/police')
+      .get(
+        PoliceController.getAll
+      )
       .post(
         PoliceValidation.createValidation,
         PoliceController.create
+      );
+
+    router.route('/police/:id')
+      .get(
+        PoliceController.getOne
       );
   }
 }
