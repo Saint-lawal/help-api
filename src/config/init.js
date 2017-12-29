@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 // configure app to use .env
 env.config();
 
+console.log(process.env);
+
 mongoose.connect(process.env.MONGO_TEST);
 
 mongoose.connection.once('connected', () => {
