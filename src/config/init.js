@@ -4,9 +4,9 @@ import mongoose from 'mongoose';
 // configure app to use .env
 env.config();
 
-console.log(process.env);
+const db = process.env.USER === 'travis' ? process.env.MONGO_URL : process.env.MONGO_TEST;
 
-mongoose.connect(process.env.MONGO_TEST);
+mongoose.connect(db);
 
 mongoose.connection.once('connected', () => {
   mongoose.connection.db.dropDatabase((err) => {
