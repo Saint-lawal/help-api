@@ -18,7 +18,7 @@ describe('Police Controller', () => {
           },
           area: 'test area',
           mobile: ['08011110000'],
-          email: ['test@email.com']
+          email: 'test@email.com'
         })
         .end((err, res) => {
           res.status.should.equal(400);
@@ -38,7 +38,7 @@ describe('Police Controller', () => {
           },
           area: 'test area',
           mobile: ['08011110000'],
-          email: ['test@email.com']
+          email: 'test@email.com'
         })
         .end((err, res) => {
           res.status.should.equal(400);
@@ -58,7 +58,7 @@ describe('Police Controller', () => {
           },
           area: 'test area',
           mobile: [],
-          email: ['test@email.com']
+          email: 'test@email.com'
         })
         .end((err, res) => {
           res.status.should.equal(400);
@@ -78,7 +78,7 @@ describe('Police Controller', () => {
           },
           area: 'test area',
           mobile: ['08022220000'],
-          email: ['test@email.com']
+          email: 'test@email.com'
         })
         .end((err, res) => {
           res.status.should.equal(201);
@@ -115,6 +115,16 @@ describe('Police Controller', () => {
           });
       });
 
+      it('should fail when an invalid id is provided', (done) => {
+        request(app)
+          .get('/api/police/5a465419e8451a07cbeb8bb5')
+          .end((err, res) => {
+            res.status.should.equal(404);
+            res.body.message.should.equal('No such user exists.');
+            done();
+          });
+      });
+
       it('should pass when a valid id is provided', (done) => {
         request(app)
           .get(`/api/police/${pid}`)
@@ -124,6 +134,88 @@ describe('Police Controller', () => {
             done();
           });
       });
+    });
+  });
+
+  describe('update', () => {
+    it('should return 400 if name is invalid', (done) => {
+      request(app)
+        .put(`/api/police/${pid}`)
+        .send({
+          name: 'tam'
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Name is invalid, cannot be empty or less than 6 characters.');
+          done();
+        });
+    });
+
+    it('should return 400 if location provided is invalid', (done) => {
+      request(app)
+        .put(`/api/police/${pid}`)
+        .send({
+          location: {
+            coordinates: [6.333443, 3.578443]
+          }
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Location is invalid, must have an address, longitude and latitude.');
+          done();
+        });
+    });
+
+    it('should return 400 if area provided is invalid', (done) => {
+      request(app)
+        .put(`/api/police/${pid}`)
+        .send({
+          area: 'te'
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Area is invalid, must be at least 3 characters.');
+          done();
+        });
+    });
+
+    it('should return 400 if mobile provided is less than 1', (done) => {
+      request(app)
+        .put(`/api/police/${pid}`)
+        .send({
+          mobile: []
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Mobile is invalid, must have at least one number.');
+          done();
+        });
+    });
+
+    it('should return 400 if email provided is invalid', (done) => {
+      request(app)
+        .put(`/api/police/${pid}`)
+        .send({
+          email: 'aaahh@dje'
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Email is invalid.');
+          done();
+        });
+    });
+
+    it('should return 200 all requirements are met', (done) => {
+      request(app)
+        .put(`/api/police/${pid}`)
+        .send({
+          email: 'another@email.com'
+        })
+        .end((err, res) => {
+          res.status.should.equal(200);
+          res.body.email.should.equal('another@email.com');
+          done();
+        });
     });
   });
 });

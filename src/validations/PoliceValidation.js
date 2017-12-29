@@ -29,17 +29,17 @@ export default class PoliceValidations {
    * @param {*} next 
    */
   static updateValidation(req, res, next) {
-    const body = res.body;
+    const body = req.body;
 
     if ('name' in body && body.name.length < 6) {
       res.status(400).send({ message: 'Name is invalid, cannot be empty or less than 6 characters.' });
-    } else if ('location' in body && !body.location.coordinates[0] && !body.location.coordinates[1] && !body.location.address) {
+    } else if ('location' in body && (!body.location.coordinates[0] || !body.location.coordinates[1] || !body.location.address)) {
       res.status(400).send({ message: 'Location is invalid, must have an address, longitude and latitude.' });
     } else if ('mobile' in body && body.mobile.length < 1) {
       res.status(400).send({ message: 'Mobile is invalid, must have at least one number.' });
     } else if ('area' in body && body.area.length < 3) {
       res.status(400).send({ message: 'Area is invalid, must be at least 3 characters.' });
-    } else if ('email' in body && !Util(body.email)) {
+    } else if ('email' in body && !Util.isEmailValid(body.email)) {
       res.status(400).send({ message: 'Email is invalid.' });
     } else {
       next();

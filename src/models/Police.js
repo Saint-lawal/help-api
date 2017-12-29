@@ -38,11 +38,11 @@ const policeSchema = new mongoose.Schema({
     required: true,
     unique: true
   }],
-  email:[{
+  email:{
     type: String,
     match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     unique: true
-  }]
+  }
 });
 
 export default mongoose.model('Police', policeSchema);

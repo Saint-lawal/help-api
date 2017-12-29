@@ -19,6 +19,10 @@ export default class PoliceRoutes {
     router.route('/police/:id')
       .get(
         PoliceController.getOne
+      )
+      .put(
+        PoliceValidation.updateValidation,
+        PoliceController.update
       );
   }
 }
