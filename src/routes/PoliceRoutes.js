@@ -1,4 +1,5 @@
 import PoliceController from '../controllers/PoliceController';
+import PoliceValidation from '../validations/PoliceValidation';
 
 export default class PoliceRoutes {
   /**
@@ -6,7 +7,10 @@ export default class PoliceRoutes {
    * @param {*} router 
    */
   static routes(router) {
-    router.route('/test')
-      .get(PoliceController.Test);
+    router.route('/police')
+      .post(
+        PoliceValidation.createValidation,
+        PoliceController.create
+      );
   }
 }
