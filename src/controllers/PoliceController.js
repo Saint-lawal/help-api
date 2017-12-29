@@ -80,4 +80,36 @@ export default class PoliceController {
       }
     });
   }
+
+  /**
+   * Update police station information
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static update(req, res) {
+    const body = res.body;
+    const id = res.params.id || res.body.id;
+
+    Police.findById(id, (err, station) => {
+      if (err) {
+        res.status(500).send(err);
+      } else if (!station) {
+        res.status(404).send({ message: 'Station does not exist.' });
+      } else {
+        ['name', 'location', 'area', 'state', 'mobile', 'email'].forEach((key) => {
+          if (body[key]) {
+            station[key] = body[key];
+          }
+        });
+
+        station.save((err) => {
+          if (err) {
+            res.status(500).send(err);
+          } else {
+            res.status(200).send(station);
+          }
+        });
+      }
+    });
+  }
 };
