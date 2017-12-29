@@ -87,8 +87,8 @@ export default class PoliceController {
    * @param {*} res 
    */
   static update(req, res) {
-    const body = res.body;
-    const id = res.params.id || res.body.id;
+    const body = req.body;
+    const id = req.params.id || req.body.id;
 
     Police.findById(id, (err, station) => {
       if (err) {
