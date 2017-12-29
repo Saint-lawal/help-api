@@ -15,7 +15,7 @@ const router = express.Router();
 env.config();
 
 // set db
-const db = process.env.NODE_ENV === 'test' ? process.env.MONGO_TEST : process.env.MONGO_URL;
+const db = process.env.USER === 'travis' && process.env.NODE_ENV === 'test' ?  process.env.MONGO_URL : process.env.MONGO_TEST;
 
 // set our port
 const port = process.env.PORT || 3000;
