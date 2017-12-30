@@ -265,4 +265,51 @@ describe('Police Controller', () => {
         });
     });
   });
+
+  describe('get', () => {
+    describe('all', () => {
+      it('should get all stations in the database', (done) => {
+        request
+          .get('/api/police')
+          .end((err, res) => {
+            res.status.should.equal(200);
+            res.body.length.should.equal(1);
+            pid = res.body[0]._id;
+            done();
+          });
+      });
+    });
+
+    describe('delete', () => {
+      it('should fail when an invalid id is provided', (done) => {
+        request
+          .delete('/api/police/djhdjh')
+          .end((err, res) => {
+            res.status.should.equal(500);
+            res.body.name.should.equal('CastError');
+            done();
+          });
+      });
+
+      it('should fail when an invalid id is provided', (done) => {
+        request
+          .delete('/api/police/5a465419e8451a07cbeb8bb5')
+          .end((err, res) => {
+            res.status.should.equal(404);
+            res.body.message.should.equal('Station does not exist.');
+            done();
+          });
+      });
+
+      it('should pass when a valid id is provided', (done) => {
+        request
+          .delete(`/api/police/${pid}`)
+          .end((err, res) => {
+            res.status.should.equal(200);
+            res.body.message.should.equal('Station deleted.');
+            done();
+          });
+      });
+    });
+  });
 });

@@ -46,6 +46,25 @@ export default class PoliceController {
   }
 
   /**
+   * delete a station
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static drop(req, res) {
+    const id = req.params.id || req.body.id;
+
+    Police.findByIdAndRemove(id, (err, station) => {
+      if (err) {
+        res.status(500).send(err);
+      } else if (!station || station === null) {
+        res.status(404).send({ message: 'Station does not exist.' });
+      } else {
+        res.status(200).send({ message: 'Station deleted.' });
+      }
+    });
+  }
+
+  /**
    * Get all police stations
    * @param {*} req 
    * @param {*} res 

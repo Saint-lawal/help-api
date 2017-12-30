@@ -23,6 +23,9 @@ export default class PoliceRoutes {
       .put(
         PoliceValidation.updateValidation,
         PoliceController.update
+      )
+      .delete(
+        PoliceController.drop
       );
   }
 }
