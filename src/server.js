@@ -33,8 +33,8 @@ app.use(bodyParser.json());
 app.use('/api', router);
 Router.routes(router);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App started on port ${port}`);
 });
 
-export default app;
+export default server;

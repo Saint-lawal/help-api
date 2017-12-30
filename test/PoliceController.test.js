@@ -1,14 +1,21 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import should from 'should';
 
 import app from '../src/server';
 
 let pid;
 
+const request = supertest(app);
+
 describe('Police Controller', () => {
+  after((done) => {
+    app.close();
+    done();
+  });
+
   describe('creation', () => {
     it('should return 400 when name is empty', (done) => {
-      request(app)
+      request
         .post('/api/police')
         .send({
           name: 'ty',
@@ -28,7 +35,7 @@ describe('Police Controller', () => {
     });
 
     it('should return 400 when location is invalid', (done) => {
-      request(app)
+      request
         .post('/api/police')
         .send({
           name: 'Test Division',
@@ -48,7 +55,7 @@ describe('Police Controller', () => {
     });
 
     it('should return 400 when no mobile number is provided', (done) => {
-      request(app)
+      request
         .post('/api/police')
         .send({
           name: 'Test Division',
@@ -68,7 +75,7 @@ describe('Police Controller', () => {
     });
 
     it('should return 201 when it meets all basic requirements', (done) => {
-      request(app)
+      request
         .post('/api/police')
         .send({
           name: 'Test Division',
@@ -93,7 +100,7 @@ describe('Police Controller', () => {
   describe('get', () => {
     describe('all', () => {
       it('should get all stations in the database', (done) => {
-        request(app)
+        request
           .get('/api/police')
           .end((err, res) => {
             res.status.should.equal(200);
@@ -106,7 +113,7 @@ describe('Police Controller', () => {
 
     describe('one', () => {
       it('should fail when an invalid id is provided', (done) => {
-        request(app)
+        request
           .get('/api/police/djhdjh')
           .end((err, res) => {
             res.status.should.equal(500);
@@ -116,7 +123,7 @@ describe('Police Controller', () => {
       });
 
       it('should fail when an invalid id is provided', (done) => {
-        request(app)
+        request
           .get('/api/police/5a465419e8451a07cbeb8bb5')
           .end((err, res) => {
             res.status.should.equal(404);
@@ -126,7 +133,7 @@ describe('Police Controller', () => {
       });
 
       it('should pass when a valid id is provided', (done) => {
-        request(app)
+        request
           .get(`/api/police/${pid}`)
           .end((err, res) => {
             res.status.should.equal(200);
@@ -139,7 +146,7 @@ describe('Police Controller', () => {
 
   describe('update', () => {
     it('should return 400 if name is invalid', (done) => {
-      request(app)
+      request
         .put(`/api/police/${pid}`)
         .send({
           name: 'tam'
@@ -152,7 +159,7 @@ describe('Police Controller', () => {
     });
 
     it('should return 400 if location provided is invalid', (done) => {
-      request(app)
+      request
         .put(`/api/police/${pid}`)
         .send({
           location: {
@@ -167,7 +174,7 @@ describe('Police Controller', () => {
     });
 
     it('should return 400 if area provided is invalid', (done) => {
-      request(app)
+      request
         .put(`/api/police/${pid}`)
         .send({
           area: 'te'
@@ -180,7 +187,7 @@ describe('Police Controller', () => {
     });
 
     it('should return 400 if mobile provided is less than 1', (done) => {
-      request(app)
+      request
         .put(`/api/police/${pid}`)
         .send({
           mobile: []
@@ -193,7 +200,7 @@ describe('Police Controller', () => {
     });
 
     it('should return 400 if email provided is invalid', (done) => {
-      request(app)
+      request
         .put(`/api/police/${pid}`)
         .send({
           email: 'aaahh@dje'
@@ -206,7 +213,7 @@ describe('Police Controller', () => {
     });
 
     it('should return 200 all requirements are met', (done) => {
-      request(app)
+      request
         .put(`/api/police/${pid}`)
         .send({
           email: 'another@email.com'
