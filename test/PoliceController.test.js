@@ -95,6 +95,46 @@ describe('Police Controller', () => {
           done();
       });
     });
+
+    it('should return 409 when station with name already exists', (done) => {
+      request
+        .post('/api/police')
+        .send({
+          name: 'test division',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.578443]
+          },
+          area: 'test area',
+          mobile: ['08022220000'],
+          email: 'test1@email.com'
+        })
+        .end((err, res) => {
+          res.status.should.equal(409);
+          res.body.message.should.equal('Police Station with email or name already exists.');
+          done();
+      });
+    });
+
+    it('should return 409 when station with email already exists', (done) => {
+      request
+        .post('/api/police')
+        .send({
+          name: 'Takwa Test',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.578443]
+          },
+          area: 'test area',
+          mobile: ['08022220000'],
+          email: 'test@email.com'
+        })
+        .end((err, res) => {
+          res.status.should.equal(409);
+          res.body.message.should.equal('Police Station with email or name already exists.');
+          done();
+      });
+    });
   });
 
   describe('get', () => {

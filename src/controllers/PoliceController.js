@@ -10,18 +10,16 @@ export default class PoliceController {
     const body = req.body;
 
     Police.findOne({
-      name: body.name,
-      mobile: {
-        $in: body.mobile
-      },
-      email: {
-        $in: body.email
-      }
+      $or: [
+        { name: body.name },
+        { email: body.email }
+      ]
     }, (err, station) => {
+      /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
       } else if (station) {
-        res.status(409).send({ message: 'Police Station already exists.' });
+        res.status(409).send({ message: 'Police Station with email or name already exists.' });
       } else {
         station = new Police({
           name: body.name,
@@ -36,6 +34,7 @@ export default class PoliceController {
         });
 
         station.save((err) => {
+          /* istanbul ignore if */
           if (err) {
             res.status(500).send(err);
           } else {
@@ -53,6 +52,7 @@ export default class PoliceController {
    */
   static getAll(req, res) {
     Police.find({}, (err, stations) => {
+      /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
       } else {
@@ -71,6 +71,7 @@ export default class PoliceController {
     const id = req.params.id || req.body.id;
 
     Police.findById(id, (err, station) => {
+      /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
       } else if (!station) {
@@ -91,6 +92,7 @@ export default class PoliceController {
     const id = req.params.id || req.body.id;
 
     Police.findById(id, (err, station) => {
+      /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
       } else if (!station) {
