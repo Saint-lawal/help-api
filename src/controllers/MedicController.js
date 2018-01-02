@@ -42,4 +42,20 @@ export default class MedicController {
       }
     });
   }
+
+  /**
+   * Logic for retreiving all medical centers
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static getAll(req, res) {
+    Medic.find({}, (err, medics) => {
+      /* istanbul ignore if */
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(medics);
+      }
+    });
+  }
 }

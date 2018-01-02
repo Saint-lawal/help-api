@@ -3,6 +3,7 @@ import supertest from 'supertest';
 
 import app from '../src/server';
 
+let mid;
 const request = supertest(app);
 
 describe('Medic Controller', () => {
@@ -122,6 +123,20 @@ describe('Medic Controller', () => {
           res.body.services.length.should.equal(2);
           done();
         });
+    });
+  });
+
+  describe('get', () => {
+    describe('all', () => {
+      it('should retreive all medical centers', (done) => {
+        request
+          .get('/api/medic')
+          .end((err, res) => {
+            mid = res.body[0]._id;
+            res.body.length.should.equal(1);
+            done();
+          });
+      });
     });
   });
 });
