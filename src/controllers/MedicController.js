@@ -58,4 +58,19 @@ export default class MedicController {
       }
     });
   }
+
+  static getOne(req, res) {
+    const id = req.params.id || req.body.id;
+
+    Medic.findById(id, (err, center) => {
+      /* istanbul ignore if */
+      if (err) {
+        res.status(500).send(err);
+      } else if (!center) {
+        res.status(404).send({ message: 'Medical Center does not exist.' });
+      } else {
+        res.status(200).send(center);
+      }
+    });
+  }
 }

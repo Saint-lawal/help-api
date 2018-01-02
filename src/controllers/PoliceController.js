@@ -9,12 +9,10 @@ export default class PoliceController {
   static create(req, res) {
     const body = req.body;
 
-    Police.findOne({
-      $or: [
-        { name: body.name },
-        { email: body.email }
-      ]
-    }, (err, station) => {
+    Police.findOne({ $or: [
+      { name: body.name },
+      { email: body.email }
+    ]}, (err, station) => {
       /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);

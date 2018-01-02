@@ -124,6 +124,50 @@ describe('Medic Controller', () => {
           done();
         });
     });
+
+    it('should return 409 when center already exists with the same name', (done) => {
+      request
+        .post('/api/medic')
+        .send({
+          name: 'Test Center',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.578443]
+          },
+          area: 'test area',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'chai.com',
+          services: ['dentistry', 'urology']                      
+        })
+        .end((err, res) => {
+          res.status.should.equal(409);
+          res.body.message.should.equal('Medical center already exists.');
+          done();
+        });
+    });
+
+    it('should return 409 when center already exists with the same email', (done) => {
+      request
+        .post('/api/medic')
+        .send({
+          name: 'Test Center 1',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.578443]
+          },
+          area: 'test area',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'chai.com',
+          services: ['dentistry', 'urology']                      
+        })
+        .end((err, res) => {
+          res.status.should.equal(409);
+          res.body.message.should.equal('Medical center already exists.');
+          done();
+        });
+    });
   });
 
   describe('get', () => {
@@ -134,6 +178,29 @@ describe('Medic Controller', () => {
           .end((err, res) => {
             mid = res.body[0]._id;
             res.body.length.should.equal(1);
+            done();
+          });
+      });
+    });
+
+    describe('one', () => {
+      it('should return 404 when id is not found', (done) => {
+        request
+          .get('/api/medic/5a465419e8451a07cbeb8bb5')
+          .end((err, res) => {
+            res.status.should.equal(404);
+            res.body.message.should.equal('Medical Center does not exist.');
+            done();
+          });
+      });
+
+      it('should return center when id is valid', (done) => {
+        request
+          .get(`/api/medic/${mid}`)
+          .end((err, res) => {
+            res.status.should.equal(200);
+            res.body._id.should.equal(mid);
+            res.body.name.should.equal('test center');
             done();
           });
       });

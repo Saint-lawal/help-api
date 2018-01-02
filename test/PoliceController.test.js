@@ -120,7 +120,7 @@ describe('Police Controller', () => {
       request
         .post('/api/police')
         .send({
-          name: 'Takwa Test',
+          name: 'test division 1',
           location: {
             address: 'Test Address, Some Street, Lagos.',
             coordinates: [6.333443, 3.578443]

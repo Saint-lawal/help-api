@@ -12,5 +12,10 @@ export default class MedicRoutes {
         MedicValidation.createValidation,
         MedicController.create
       );
+
+    router.route('/medic/:id')
+      .get(
+        MedicController.getOne
+      );
   }
 }
