@@ -1,3 +1,4 @@
+import MedicRoutes from './MedicRoutes';
 import PoliceRoutes from './PoliceRoutes';
 
 export default class Router {
@@ -7,6 +8,7 @@ export default class Router {
    * @param {*} router 
    */
   static routes(router) {
+    MedicRoutes.routes(router);
     PoliceRoutes.routes(router);
   };
 }

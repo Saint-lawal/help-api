@@ -24,7 +24,7 @@ export default class MedicController {
           name: body.name,
           location: body.location,
           area: body.area,
-          state: body.state || center.state,
+          state: body.state,
           mobile: body.mobile,
           email: body.email,
           website: body.website,

@@ -14,7 +14,7 @@ describe('Police Controller', () => {
   });
 
   describe('creation', () => {
-    it('should return 400 when name is empty', (done) => {
+    it('should return 400 when name is empty or has below 3 characters', (done) => {
       request
         .post('/api/police')
         .send({
