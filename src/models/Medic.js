@@ -43,8 +43,13 @@ const medicSchema = new mongoose.Schema({
     match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     unique: true
   },
+  website: {
+    type: String,
+    lowercase: true
+  },
   services: [{
     type: String,
+    require: true,
     unique: true
   }]
 });
