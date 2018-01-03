@@ -52,6 +52,7 @@ export default class PoliceController {
     const id = req.params.id || req.body.id;
 
     Police.findByIdAndRemove(id, (err, station) => {
+      /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
       } else if (!station || station === null) {

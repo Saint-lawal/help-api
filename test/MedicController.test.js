@@ -408,4 +408,36 @@ describe('Medic Controller', () => {
         });
     });
   });
+
+  describe('drop', () => {
+    it('should fail when an invalid id is provided', (done) => {
+      request
+        .delete('/api/medic/djhdjh')
+        .end((err, res) => {
+          res.status.should.equal(500);
+          res.body.name.should.equal('CastError');
+          done();
+        });
+    });
+
+    it('should fail when an id for unknown document is provided', (done) => {
+      request
+        .delete('/api/medic/5a465419e8451a07cbeb8bb5')
+        .end((err, res) => {
+          res.status.should.equal(404);
+          res.body.message.should.equal('Medical Center does not exist.');
+          done();
+        });
+    });
+
+    it('should delete center when a valid id is provided', (done) => {
+      request
+        .delete(`/api/medic/${mid}`)
+        .end((err, res) => {
+          res.status.should.equal(200);
+          res.body.message.should.equal('Medical Center deleted.');
+          done();
+        });
+    });
+  });
 });

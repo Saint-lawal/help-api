@@ -20,6 +20,9 @@ export default class MedicRoutes {
       .put(
         MedicValidation.updateValidation,
         MedicController.update
+      )
+      .delete(
+        MedicController.drop
       );
   }
 }
