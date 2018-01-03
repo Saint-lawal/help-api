@@ -16,6 +16,10 @@ export default class MedicRoutes {
     router.route('/medic/:id')
       .get(
         MedicController.getOne
+      )
+      .put(
+        MedicValidation.updateValidation,
+        MedicController.update
       );
   }
 }

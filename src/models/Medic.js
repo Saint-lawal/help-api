@@ -51,7 +51,15 @@ const medicSchema = new mongoose.Schema({
     type: String,
     require: true,
     unique: true
-  }]
+  }],
+  createdAt: {
+    type: Date,
+    default: new Date
+  },
+  modifiedAt: {
+    type: Date,
+    default: new Date
+  }
 });
 
 export default mongoose.model('Medic', medicSchema);

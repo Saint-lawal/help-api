@@ -206,4 +206,206 @@ describe('Medic Controller', () => {
       });
     });
   });
+
+  describe('update', () => {
+    it('should return 404 when id is not found', (done) => {
+      request
+        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .send({
+          name: 'Test Center',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.578443]
+          },
+          area: 'test area',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'www.chai.com',
+          services: ['dentistry', 'urology']   
+        })
+        .end((err, res) => {
+          res.status.should.equal(404);
+          res.body.message.should.equal('Medical Center does not exist.');
+          done();
+        });
+    });
+
+    it('should return 400 when name is invalid', (done) => {
+      request
+        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .send({
+          name: 'Te',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.578443]
+          },
+          area: 'test area',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'chai.com',
+          services: ['dentistry', 'urology']   
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Name is invalid. Cannot be less than 3 or empty.');
+          done();
+        });
+    });
+
+    it('should return 400 when location is invalid', (done) => {
+      request
+        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .send({
+          name: 'Test Center 2',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443]
+          },
+          area: 'test area',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'chai.com',
+          services: ['dentistry', 'urology']   
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Location is invalid. Must have an address, longitude and latitude.');
+          done();
+        });
+    });
+
+    it('should return 400 when area is invalid', (done) => {
+      request
+        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .send({
+          name: 'Test Center 2',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.573092]
+          },
+          area: 'te',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'chai.com',
+          services: ['dentistry', 'urology']   
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Area is invalid. Cannot be less than 3 or empty.');
+          done();
+        });
+    });
+
+    it('should return 400 when mobile is invalid', (done) => {
+      request
+        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .send({
+          name: 'Test Center 2',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.573092]
+          },
+          area: 'test area 2',
+          mobile: [],
+          email: 'test@email.com',
+          website: 'chai.com',
+          services: ['dentistry', 'urology']   
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Mobile is invalid. Must have atleast one number.');
+          done();
+        });
+    });
+
+    it('should return 400 when email is invalid', (done) => {
+      request
+        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .send({
+          name: 'Test Center 2',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.573092]
+          },
+          area: 'test area 2',
+          mobile: ['08011110000'],
+          email: 'test.com',
+          website: 'www.chai.com',
+          services: ['dentistry', 'urology']   
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Email is invalid.');
+          done();
+        });
+    });
+
+    it('should return 400 when website is invalid', (done) => {
+      request
+        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .send({
+          name: 'Test Center 2',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.573092]
+          },
+          area: 'test area 2',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'chai.com',
+          services: ['dentistry', 'urology']   
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Website is invalid.');
+          done();
+        });
+    });
+
+    it('should return 400 when services is invalid', (done) => {
+      request
+        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .send({
+          name: 'Test Center 2',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.573092]
+          },
+          area: 'test area 2',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'www.chai.com',
+          services: []   
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Services is invalid. Must have at least one service provided.');
+          done();
+        });
+    });
+
+    it('should return 200 when all requirements are met', (done) => {
+      request
+        .put(`/api/medic/${mid}`)
+        .send({
+          name: 'Test Center 2',
+          location: {
+            address: 'Test Address, Some Street, Lagos.',
+            coordinates: [6.333443, 3.573092]
+          },
+          area: 'test area 2',
+          mobile: ['08011110000'],
+          email: 'test@email.com',
+          website: 'www.chai.com',
+          services: ['dentistry', 'urology', 'radiology']
+        })
+        .end((err, res) => {
+          res.status.should.equal(200);
+          res.body.name.should.equal('test center 2');
+          res.body.area.should.equal('test area 2');
+          res.body.services.length.should.equal(3);
+          done();
+        });
+    });
+  });
 });

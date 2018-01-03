@@ -3,7 +3,7 @@ import Medic from '../models/Medic';
 export default class MedicController {
 
   /**
-   * Logic for creating a medical center
+   * Create a medical center
    * @param {*} req 
    * @param {*} res 
    */
@@ -44,7 +44,7 @@ export default class MedicController {
   }
 
   /**
-   * Logic for retreiving all medical centers
+   * Get all medical centers
    * @param {*} req 
    * @param {*} res 
    */
@@ -59,6 +59,11 @@ export default class MedicController {
     });
   }
 
+  /**
+   * Get One medical center
+   * @param {*} req 
+   * @param {*} res 
+   */
   static getOne(req, res) {
     const id = req.params.id || req.body.id;
 
@@ -70,6 +75,41 @@ export default class MedicController {
         res.status(404).send({ message: 'Medical Center does not exist.' });
       } else {
         res.status(200).send(center);
+      }
+    });
+  }
+
+  /**
+   * Update Medical Center
+   * @param {*} req 
+   * @param {*} res 
+   */
+  static update(req, res) {
+    const body = req.body;
+    const id = req.params.id || req.body.id;
+
+    Medic.findById(id, (err, center) => {
+      /* istanbul ignore if */
+      if (err) {
+        res.status(500).send(err);
+      } else if (!center) {
+        res.status(404).send({ message: 'Medical Center does not exist.' });
+      } else {
+        ['name', 'location', 'area', 'state', 'mobile', 'email', 'website', 'services'].forEach((key) => {
+          if (body[key]) {
+            center[key] = body[key];
+          }
+        });
+
+        center.modifiedAt = new Date();
+        center.save((err) => {
+          /* istanbul ignore if */
+          if (err) {
+            res.status(500).send(err);
+          } else {
+            res.status(200).send(center);
+          }
+        });
       }
     });
   }
