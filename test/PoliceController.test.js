@@ -14,7 +14,7 @@ describe('Police Controller', () => {
   });
 
   describe('creation', () => {
-    it('should return 400 when name is empty', (done) => {
+    it('should return 400 when name is empty or has below 3 characters', (done) => {
       request
         .post('/api/police')
         .send({
@@ -120,7 +120,7 @@ describe('Police Controller', () => {
       request
         .post('/api/police')
         .send({
-          name: 'Takwa Test',
+          name: 'test division 1',
           location: {
             address: 'Test Address, Some Street, Lagos.',
             coordinates: [6.333443, 3.578443]
@@ -266,21 +266,8 @@ describe('Police Controller', () => {
     });
   });
 
-  describe('get', () => {
-    describe('all', () => {
-      it('should get all stations in the database', (done) => {
-        request
-          .get('/api/police')
-          .end((err, res) => {
-            res.status.should.equal(200);
-            res.body.length.should.equal(1);
-            pid = res.body[0]._id;
-            done();
-          });
-      });
-    });
-
-    describe('delete', () => {
+  describe('drop', () => {
+    describe('one', () => {
       it('should fail when an invalid id is provided', (done) => {
         request
           .delete('/api/police/djhdjh')
@@ -301,7 +288,7 @@ describe('Police Controller', () => {
           });
       });
 
-      it('should pass when a valid id is provided', (done) => {
+      it('should delete station when a valid id is provided', (done) => {
         request
           .delete(`/api/police/${pid}`)
           .end((err, res) => {

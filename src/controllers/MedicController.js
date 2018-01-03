@@ -1,42 +1,42 @@
-import Police from '../models/Police';
+import Medic from '../models/Medic';
 
-export default class PoliceController {
+export default class MedicController {
+
   /**
-   * Create a police station
+   * Create a medical center
    * @param {*} req 
    * @param {*} res 
    */
   static create(req, res) {
     const body = req.body;
 
-    Police.findOne({ $or: [
+    Medic.findOne({ $or: [
       { name: body.name },
       { email: body.email }
-    ]}, (err, station) => {
+    ]}, (err, center) => {
       /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
-      } else if (station) {
-        res.status(409).send({ message: 'Police Station with email or name already exists.' });
+      } else if (center) {
+        res.status(409).send({ message: 'Medical center already exists.' });
       } else {
-        station = new Police({
+        center = new Medic({
           name: body.name,
-          location: {
-            address: body.location.address,
-            coordinates: [body.location.coordinates[0], body.location.coordinates[1]]
-          },
+          location: body.location,
           area: body.area,
           state: body.state,
           mobile: body.mobile,
-          email: body.email
+          email: body.email,
+          website: body.website,
+          services: body.services
         });
 
-        station.save((err) => {
+        center.save((err) => {
           /* istanbul ignore if */
           if (err) {
             res.status(500).send(err);
           } else {
-            res.status(201).send(station);
+            res.status(201).send(center);
           }
         });
       }
@@ -44,64 +44,63 @@ export default class PoliceController {
   }
 
   /**
-   * delete a station
+   * Delete a medical center
    * @param {*} req 
    * @param {*} res 
    */
   static drop(req, res) {
     const id = req.params.id || req.body.id;
 
-    Police.findByIdAndRemove(id, (err, station) => {
+    Medic.findByIdAndRemove(id, (err, center) => {
       /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
-      } else if (!station || station === null) {
-        res.status(404).send({ message: 'Station does not exist.' });
+      } else if (!center || center === null) {
+        res.status(404).send({ message: 'Medical Center does not exist.' });
       } else {
-        res.status(200).send({ message: 'Station deleted.' });
+        res.status(200).send({ message: 'Medical Center deleted.' });
       }
     });
   }
 
   /**
-   * Get all police stations
+   * Get all medical centers
    * @param {*} req 
    * @param {*} res 
    */
   static getAll(req, res) {
-    Police.find({}, (err, stations) => {
+    Medic.find({}, (err, medics) => {
       /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
       } else {
-        res.status(200).send(stations);
+        res.status(200).send(medics);
       }
     });
   }
 
   /**
-   * Get one police station using
-   * the object id.
+   * Get One medical center
    * @param {*} req 
    * @param {*} res 
    */
   static getOne(req, res) {
     const id = req.params.id || req.body.id;
 
-    Police.findById(id, (err, station) => {
+    Medic.findById(id, (err, center) => {
       /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
-      } else if (!station) {
-        res.status(404).send({ message: 'No such user exists.' });
+      } else if (!center) {
+        res.status(404).send({ message: 'Medical Center does not exist.' });
       } else {
-        res.status(200).send(station);
+        res.status(200).send(center);
       }
     });
   }
 
   /**
-   * Update police station information
+   * Update Medical Center
    * @param {*} req 
    * @param {*} res 
    */
@@ -109,27 +108,29 @@ export default class PoliceController {
     const body = req.body;
     const id = req.params.id || req.body.id;
 
-    Police.findById(id, (err, station) => {
+    Medic.findById(id, (err, center) => {
       /* istanbul ignore if */
       if (err) {
         res.status(500).send(err);
-      } else if (!station) {
-        res.status(404).send({ message: 'Station does not exist.' });
+      } else if (!center) {
+        res.status(404).send({ message: 'Medical Center does not exist.' });
       } else {
-        ['name', 'location', 'area', 'state', 'mobile', 'email'].forEach((key) => {
+        ['name', 'location', 'area', 'state', 'mobile', 'email', 'website', 'services'].forEach((key) => {
           if (body[key]) {
-            station[key] = body[key];
+            center[key] = body[key];
           }
         });
 
-        station.save((err) => {
+        center.modifiedAt = new Date();
+        center.save((err) => {
+          /* istanbul ignore if */
           if (err) {
             res.status(500).send(err);
           } else {
-            res.status(200).send(station);
+            res.status(200).send(center);
           }
         });
       }
     });
   }
-};
+}
