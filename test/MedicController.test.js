@@ -15,7 +15,7 @@ describe('Medic Controller', () => {
   describe('creation', () => {
     it('should return 400 when name is empty or has below 3 characters', (done) => {
       request
-        .post('/api/medic')
+        .post('/v1/api/medic')
         .send({
           name: 'py',
           location: {
@@ -37,7 +37,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when location is invalid', (done) => {
       request
-        .post('/api/medic')
+        .post('/v1/api/medic')
         .send({
           name: 'Test Center',
           location: {
@@ -58,7 +58,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when mobile is invalid', (done) => {
       request
-        .post('/api/medic')
+        .post('/v1/api/medic')
         .send({
           name: 'Test Center',
           location: {
@@ -80,7 +80,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when services is invalid', (done) => {
       request
-        .post('/api/medic')
+        .post('/v1/api/medic')
         .send({
           name: 'Test Center',
           location: {
@@ -102,7 +102,7 @@ describe('Medic Controller', () => {
 
     it('should return 201 when all requirements are met and center created', (done) => {
       request
-        .post('/api/medic')
+        .post('/v1/api/medic')
         .send({
           name: 'Test Center',
           location: {
@@ -127,7 +127,7 @@ describe('Medic Controller', () => {
 
     it('should return 409 when center already exists with the same name', (done) => {
       request
-        .post('/api/medic')
+        .post('/v1/api/medic')
         .send({
           name: 'Test Center',
           location: {
@@ -149,7 +149,7 @@ describe('Medic Controller', () => {
 
     it('should return 409 when center already exists with the same email', (done) => {
       request
-        .post('/api/medic')
+        .post('/v1/api/medic')
         .send({
           name: 'Test Center 1',
           location: {
@@ -174,7 +174,7 @@ describe('Medic Controller', () => {
     describe('all', () => {
       it('should retreive all medical centers', (done) => {
         request
-          .get('/api/medic')
+          .get('/v1/api/medic')
           .end((err, res) => {
             mid = res.body[0]._id;
             res.body.length.should.equal(1);
@@ -186,7 +186,7 @@ describe('Medic Controller', () => {
     describe('one', () => {
       it('should return 404 when id is not found', (done) => {
         request
-          .get('/api/medic/5a465419e8451a07cbeb8bb5')
+          .get('/v1/api/medic/5a465419e8451a07cbeb8bb5')
           .end((err, res) => {
             res.status.should.equal(404);
             res.body.message.should.equal('Medical Center does not exist.');
@@ -196,7 +196,7 @@ describe('Medic Controller', () => {
 
       it('should return center when id is valid', (done) => {
         request
-          .get(`/api/medic/${mid}`)
+          .get(`/v1/api/medic/${mid}`)
           .end((err, res) => {
             res.status.should.equal(200);
             res.body._id.should.equal(mid);
@@ -210,7 +210,7 @@ describe('Medic Controller', () => {
   describe('update', () => {
     it('should return 404 when id is not found', (done) => {
       request
-        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .put('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .send({
           name: 'Test Center',
           location: {
@@ -232,7 +232,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when name is invalid', (done) => {
       request
-        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .put('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .send({
           name: 'Te',
           location: {
@@ -254,7 +254,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when location is invalid', (done) => {
       request
-        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .put('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .send({
           name: 'Test Center 2',
           location: {
@@ -276,7 +276,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when area is invalid', (done) => {
       request
-        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .put('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .send({
           name: 'Test Center 2',
           location: {
@@ -298,7 +298,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when mobile is invalid', (done) => {
       request
-        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .put('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .send({
           name: 'Test Center 2',
           location: {
@@ -320,7 +320,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when email is invalid', (done) => {
       request
-        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .put('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .send({
           name: 'Test Center 2',
           location: {
@@ -342,7 +342,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when website is invalid', (done) => {
       request
-        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .put('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .send({
           name: 'Test Center 2',
           location: {
@@ -364,7 +364,7 @@ describe('Medic Controller', () => {
 
     it('should return 400 when services is invalid', (done) => {
       request
-        .put('/api/medic/5a465419e8451a07cbeb8bb5')
+        .put('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .send({
           name: 'Test Center 2',
           location: {
@@ -386,7 +386,7 @@ describe('Medic Controller', () => {
 
     it('should return 200 when all requirements are met', (done) => {
       request
-        .put(`/api/medic/${mid}`)
+        .put(`/v1/api/medic/${mid}`)
         .send({
           name: 'Test Center 2',
           location: {
@@ -412,7 +412,7 @@ describe('Medic Controller', () => {
   describe('drop', () => {
     it('should fail when an invalid id is provided', (done) => {
       request
-        .delete('/api/medic/djhdjh')
+        .delete('/v1/api/medic/djhdjh')
         .end((err, res) => {
           res.status.should.equal(500);
           res.body.name.should.equal('CastError');
@@ -422,7 +422,7 @@ describe('Medic Controller', () => {
 
     it('should fail when an id for unknown document is provided', (done) => {
       request
-        .delete('/api/medic/5a465419e8451a07cbeb8bb5')
+        .delete('/v1/api/medic/5a465419e8451a07cbeb8bb5')
         .end((err, res) => {
           res.status.should.equal(404);
           res.body.message.should.equal('Medical Center does not exist.');
@@ -432,7 +432,7 @@ describe('Medic Controller', () => {
 
     it('should delete center when a valid id is provided', (done) => {
       request
-        .delete(`/api/medic/${mid}`)
+        .delete(`/v1/api/medic/${mid}`)
         .end((err, res) => {
           res.status.should.equal(200);
           res.body.message.should.equal('Medical Center deleted.');

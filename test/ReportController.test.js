@@ -14,7 +14,7 @@ describe('Report', () => {
     describe
     it('should fail when an invalid name is provided', (done) => {
       request
-        .post('/api/report')
+        .post('/v1/api/report')
         .send({
           name: 'Ta',
           email: 'test@email.com',
@@ -35,7 +35,7 @@ describe('Report', () => {
 
     it('should fail when an invalid email is provided', (done) => {
       request
-        .post('/api/report')
+        .post('/v1/api/report')
         .send({
           name: 'Test Name',
           email: 'email.com',
@@ -56,7 +56,7 @@ describe('Report', () => {
 
     it('should fail when an invalid title is provided', (done) => {
       request
-        .post('/api/report')
+        .post('/v1/api/report')
         .send({
           name: 'Test Name',
           email: 'test@email.com',
@@ -77,7 +77,7 @@ describe('Report', () => {
 
     it('should fail when an invalid content is provided', (done) => {
       request
-        .post('/api/report')
+        .post('/v1/api/report')
         .send({
           name: 'Test Name',
           email: 'test@email.com',
@@ -98,7 +98,7 @@ describe('Report', () => {
 
     it('should fail when an invalid title is provided', (done) => {
       request
-        .post('/api/report')
+        .post('/v1/api/report')
         .send({
           name: 'Test Name',
           email: 'test@email.com',
@@ -118,7 +118,7 @@ describe('Report', () => {
 
     it('should pass when all valid required fields are provided', (done) => {
       request
-        .post('/api/report')
+        .post('/v1/api/report')
         .send({
           name: 'Test Name',
           email: 'test@email.com',

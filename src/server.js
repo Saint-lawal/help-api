@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 // Add Routes
-app.use('/api', router);
+app.use('/v1/api', router);
 Router.routes(router);
 
 const server = app.listen(port, () => {
