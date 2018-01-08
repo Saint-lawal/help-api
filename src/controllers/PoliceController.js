@@ -48,7 +48,7 @@ export default class PoliceController {
    * @param {*} req 
    * @param {*} res 
    */
-  static drop(req, res) {
+  static delete(req, res) {
     const id = req.params.id || req.body.id;
 
     Police.findByIdAndRemove(id, (err, station) => {
@@ -68,7 +68,7 @@ export default class PoliceController {
    * @param {*} req 
    * @param {*} res 
    */
-  static getAll(req, res) {
+  static read(req, res) {
     Police.find({}, (err, stations) => {
       /* istanbul ignore if */
       if (err) {
@@ -85,7 +85,7 @@ export default class PoliceController {
    * @param {*} req 
    * @param {*} res 
    */
-  static getOne(req, res) {
+  static readOne(req, res) {
     const id = req.params.id || req.body.id;
 
     Police.findById(id, (err, station) => {

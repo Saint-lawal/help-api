@@ -9,7 +9,7 @@ export default class PoliceRoutes {
   static routes(router) {
     router.route('/police')
       .get(
-        PoliceController.getAll
+        PoliceController.read
       )
       .post(
         PoliceValidation.createValidation,
@@ -18,14 +18,14 @@ export default class PoliceRoutes {
 
     router.route('/police/:id')
       .get(
-        PoliceController.getOne
+        PoliceController.readOne
       )
       .put(
         PoliceValidation.updateValidation,
         PoliceController.update
       )
       .delete(
-        PoliceController.drop
+        PoliceController.delete
       );
   }
 }

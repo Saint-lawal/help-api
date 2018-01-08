@@ -48,7 +48,7 @@ export default class MedicController {
    * @param {*} req 
    * @param {*} res 
    */
-  static drop(req, res) {
+  static delete(req, res) {
     const id = req.params.id || req.body.id;
 
     Medic.findByIdAndRemove(id, (err, center) => {
@@ -68,7 +68,7 @@ export default class MedicController {
    * @param {*} req 
    * @param {*} res 
    */
-  static getAll(req, res) {
+  static read(req, res) {
     Medic.find({}, (err, medics) => {
       /* istanbul ignore if */
       if (err) {
@@ -84,7 +84,7 @@ export default class MedicController {
    * @param {*} req 
    * @param {*} res 
    */
-  static getOne(req, res) {
+  static readOne(req, res) {
     const id = req.params.id || req.body.id;
 
     Medic.findById(id, (err, center) => {

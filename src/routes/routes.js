@@ -1,5 +1,6 @@
 import MedicRoutes from './MedicRoutes';
 import PoliceRoutes from './PoliceRoutes';
+import ReportRoutes from './ReportRoutes';
 
 export default class Router {
 
@@ -10,6 +11,7 @@ export default class Router {
   static routes(router) {
     MedicRoutes.routes(router);
     PoliceRoutes.routes(router);
+    ReportRoutes.routes(router);
   };
 }
 

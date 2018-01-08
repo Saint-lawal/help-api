@@ -6,7 +6,7 @@ export default class MedicRoutes {
   static routes(router) {
     router.route('/medic')
       .get(
-        MedicController.getAll
+        MedicController.read
       )
       .post(
         MedicValidation.createValidation,
@@ -15,14 +15,14 @@ export default class MedicRoutes {
 
     router.route('/medic/:id')
       .get(
-        MedicController.getOne
+        MedicController.readOne
       )
       .put(
         MedicValidation.updateValidation,
         MedicController.update
       )
       .delete(
-        MedicController.drop
+        MedicController.delete
       );
   }
 }
