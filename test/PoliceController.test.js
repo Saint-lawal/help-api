@@ -16,7 +16,7 @@ describe('Police Controller', () => {
   describe('creation', () => {
     it('should return 400 when name is empty or has below 3 characters', (done) => {
       request
-        .post('/v1/api/police')
+        .post('/api/v1/police')
         .send({
           name: 'ty',
           location: {
@@ -36,7 +36,7 @@ describe('Police Controller', () => {
 
     it('should return 400 when location is invalid', (done) => {
       request
-        .post('/v1/api/police')
+        .post('/api/v1/police')
         .send({
           name: 'Test Division',
           location: {
@@ -56,7 +56,7 @@ describe('Police Controller', () => {
 
     it('should return 400 when no mobile number is provided', (done) => {
       request
-        .post('/v1/api/police')
+        .post('/api/v1/police')
         .send({
           name: 'Test Division',
           location: {
@@ -76,7 +76,7 @@ describe('Police Controller', () => {
 
     it('should return 201 when it meets all basic requirements', (done) => {
       request
-        .post('/v1/api/police')
+        .post('/api/v1/police')
         .send({
           name: 'Test Division',
           location: {
@@ -98,7 +98,7 @@ describe('Police Controller', () => {
 
     it('should return 409 when station with name already exists', (done) => {
       request
-        .post('/v1/api/police')
+        .post('/api/v1/police')
         .send({
           name: 'test division',
           location: {
@@ -118,7 +118,7 @@ describe('Police Controller', () => {
 
     it('should return 409 when station with email already exists', (done) => {
       request
-        .post('/v1/api/police')
+        .post('/api/v1/police')
         .send({
           name: 'test division 1',
           location: {
@@ -141,7 +141,7 @@ describe('Police Controller', () => {
     describe('all', () => {
       it('should get all stations in the database', (done) => {
         request
-          .get('/v1/api/police')
+          .get('/api/v1/police')
           .end((err, res) => {
             res.status.should.equal(200);
             res.body.length.should.equal(1);
@@ -154,7 +154,7 @@ describe('Police Controller', () => {
     describe('one', () => {
       it('should fail when an invalid id is provided', (done) => {
         request
-          .get('/v1/api/police/djhdjh')
+          .get('/api/v1/police/djhdjh')
           .end((err, res) => {
             res.status.should.equal(500);
             res.body.name.should.equal('CastError');
@@ -164,7 +164,7 @@ describe('Police Controller', () => {
 
       it('should fail when an invalid id is provided', (done) => {
         request
-          .get('/v1/api/police/5a465419e8451a07cbeb8bb5')
+          .get('/api/v1/police/5a465419e8451a07cbeb8bb5')
           .end((err, res) => {
             res.status.should.equal(404);
             res.body.message.should.equal('No such user exists.');
@@ -174,7 +174,7 @@ describe('Police Controller', () => {
 
       it('should pass when a valid id is provided', (done) => {
         request
-          .get(`/v1/api/police/${pid}`)
+          .get(`/api/v1/police/${pid}`)
           .end((err, res) => {
             res.status.should.equal(200);
             res.body._id.should.equal(pid);
@@ -187,7 +187,7 @@ describe('Police Controller', () => {
   describe('update', () => {
     it('should return 400 if name is invalid', (done) => {
       request
-        .put(`/v1/api/police/${pid}`)
+        .put(`/api/v1/police/${pid}`)
         .send({
           name: 'tam'
         })
@@ -200,7 +200,7 @@ describe('Police Controller', () => {
 
     it('should return 400 if location provided is invalid', (done) => {
       request
-        .put(`/v1/api/police/${pid}`)
+        .put(`/api/v1/police/${pid}`)
         .send({
           location: {
             coordinates: [6.333443, 3.578443]
@@ -215,7 +215,7 @@ describe('Police Controller', () => {
 
     it('should return 400 if area provided is invalid', (done) => {
       request
-        .put(`/v1/api/police/${pid}`)
+        .put(`/api/v1/police/${pid}`)
         .send({
           area: 'te'
         })
@@ -228,7 +228,7 @@ describe('Police Controller', () => {
 
     it('should return 400 if mobile provided is less than 1', (done) => {
       request
-        .put(`/v1/api/police/${pid}`)
+        .put(`/api/v1/police/${pid}`)
         .send({
           mobile: []
         })
@@ -241,7 +241,7 @@ describe('Police Controller', () => {
 
     it('should return 400 if email provided is invalid', (done) => {
       request
-        .put(`/v1/api/police/${pid}`)
+        .put(`/api/v1/police/${pid}`)
         .send({
           email: 'aaahh@dje'
         })
@@ -254,7 +254,7 @@ describe('Police Controller', () => {
 
     it('should return 200 all requirements are met', (done) => {
       request
-        .put(`/v1/api/police/${pid}`)
+        .put(`/api/v1/police/${pid}`)
         .send({
           email: 'another@email.com'
         })
@@ -270,7 +270,7 @@ describe('Police Controller', () => {
     describe('one', () => {
       it('should fail when an invalid id is provided', (done) => {
         request
-          .delete('/v1/api/police/djhdjh')
+          .delete('/api/v1/police/djhdjh')
           .end((err, res) => {
             res.status.should.equal(500);
             res.body.name.should.equal('CastError');
@@ -280,7 +280,7 @@ describe('Police Controller', () => {
 
       it('should fail when an invalid id is provided', (done) => {
         request
-          .delete('/v1/api/police/5a465419e8451a07cbeb8bb5')
+          .delete('/api/v1/police/5a465419e8451a07cbeb8bb5')
           .end((err, res) => {
             res.status.should.equal(404);
             res.body.message.should.equal('Station does not exist.');
@@ -290,7 +290,7 @@ describe('Police Controller', () => {
 
       it('should delete station when a valid id is provided', (done) => {
         request
-          .delete(`/v1/api/police/${pid}`)
+          .delete(`/api/v1/police/${pid}`)
           .end((err, res) => {
             res.status.should.equal(200);
             res.body.message.should.equal('Station deleted.');
